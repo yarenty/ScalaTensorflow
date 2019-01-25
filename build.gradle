@@ -43,7 +43,9 @@ ext {
 
 
 dependencies {
-    compile group: 'org.platanios', name: "tensorflow_$scalaBinaryVersion", version: '0.4.1'
+    //compile group: 'org.platanios', name: "tensorflow_$scalaBinaryVersion", version: '0.4.1'
+    compile group: 'org.platanios', name: "tensorflow_$scalaBinaryVersion", version: '0.4.1', classifier: 'darwin-cpu-x86_64'
+    
     compile group: 'org.platanios', name: 'tensorflow-data_2.12', version: '0.4.1' // access to data loaders
 
     compile group: 'org.platanios', name: 'tensorflow-examples_2.12', version: '0.4.1' //and just for compilation issues

@@ -21,16 +21,7 @@ import java.nio.file.Paths
   */
 object RNNExample {
   private val logger = Logger(LoggerFactory.getLogger("Tutorials / RNN-PTB"))
-
-  // Implicit helpers for Scala 2.11
-  implicit val evOutputStructureIntInt        : OutputStructure[(Output[Int], Output[Int])] = examples.evOutputStructureIntInt
-  implicit val evOutputStructureLSTMStateFloat: OutputStructure[LSTMState[Float]] = examples.evOutputStructureLSTMStateFloat
-
-  implicit val evOutputToDataTypeLSTMStateFloat: OutputToDataType.Aux[LSTMState[Float], (DataType[Float], DataType[Float])] = examples.evOutputToDataTypeLSTMStateFloat
-  implicit val evOutputToShapeLSTMStateFloat   : OutputToShape.Aux[LSTMState[Float], (Shape, Shape)]                        = examples.evOutputToShapeLSTMStateFloat
-
-  implicit val evZeroLSTMStateFloat: Zero.Aux[LSTMState[Float], (Shape, Shape)] = examples.evZeroLSTMStateFloat
-  
+ 
   val batchSize   : Int = 20
   val numSteps    : Int = 20
   val prefetchSize: Int = 10
@@ -89,7 +80,7 @@ object RNNExample {
       .repeat()
       .prefetch(prefetchSize)
 
-    val summariesDir = Paths.get("temp/rnn-ptb")
+    val summariesDir = Paths.get("temp/rnn-ptb2")
     val estimator = tf.learn.InMemoryEstimator(
       model,
       tf.learn.Configuration(Some(summariesDir)),
@@ -100,6 +91,7 @@ object RNNExample {
         tf.learn.SummarySaver(summariesDir, tf.learn.StepHookTrigger(10)),
         tf.learn.CheckpointSaver(summariesDir, tf.learn.StepHookTrigger(1000))),
       tensorBoardConfig = tf.learn.TensorBoardConfig(summariesDir, reloadInterval = 1))
-    estimator.train(trainDataset, tf.learn.StopCriteria(maxSteps = Some(10000)))
+//    estimator.train(trainDataset, tf.learn.StopCriteria(maxSteps = Some(10000)))
+    estimator.train(trainDataset, tf.learn.StopCriteria(maxSteps = Some(1000)))
   }
 }

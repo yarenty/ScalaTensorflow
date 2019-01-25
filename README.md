@@ -17,6 +17,17 @@ Check if can do all tensorflow activities using strongly typed language as scala
 - 2019/01/25 - it's alive!! First RNN model !
 
 
+
+## Run
+
+`gradle run`
+
+
+### See tensorboard
+`tensorboard --logdir=temp/rnn-ptb`   
+
+
+
 ## Troubleshooting
 
 ### Installation / Runing: Issues with JNI

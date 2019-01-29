@@ -3,13 +3,10 @@ package com.yarenty.tf
 
 import org.platanios.tensorflow.api._
 import org.platanios.tensorflow.api.core.Shape
-import org.platanios.tensorflow.api.implicits.helpers.{OutputStructure, OutputToDataType, OutputToShape, Zero}
 import org.platanios.tensorflow.api.learn.layers.rnn.RNN
 import org.platanios.tensorflow.api.learn.layers.rnn.cell.{BasicLSTMCell, DropoutWrapper, LSTMTuple}
 import org.platanios.tensorflow.api.ops.Output
-import org.platanios.tensorflow.api.ops.rnn.cell.LSTMState
 import org.platanios.tensorflow.data.text.PTBLoader
-import org.platanios.tensorflow.examples
 
 import com.typesafe.scalalogging.Logger
 import org.slf4j.LoggerFactory
@@ -80,7 +77,9 @@ object RNNExample {
       .repeat()
       .prefetch(prefetchSize)
 
-    val summariesDir = Paths.get("temp/rnn-ptb2")
+    val summariesDir = Paths.get("temp/rnn-ptb")
+    logger.info("Learning:")
+    
     val estimator = tf.learn.InMemoryEstimator(
       model,
       tf.learn.Configuration(Some(summariesDir)),
@@ -91,7 +90,9 @@ object RNNExample {
         tf.learn.SummarySaver(summariesDir, tf.learn.StepHookTrigger(10)),
         tf.learn.CheckpointSaver(summariesDir, tf.learn.StepHookTrigger(1000))),
       tensorBoardConfig = tf.learn.TensorBoardConfig(summariesDir, reloadInterval = 1))
-//    estimator.train(trainDataset, tf.learn.StopCriteria(maxSteps = Some(10000)))
-    estimator.train(trainDataset, tf.learn.StopCriteria(maxSteps = Some(1000)))
+
+    logger.info("Training:")
+    estimator.train(trainDataset, tf.learn.StopCriteria(maxSteps = Some(10000)))
+    logger.info("FINISH")
   }
 }
